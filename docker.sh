@@ -1,12 +1,25 @@
 #!/bin/bash
-sudo cd /opt
-sudo wget https://download.docker.com/linux/ubuntu/dists/trusty/pool/stable/amd64/docker-ce_17.03.0~ce-0~ubuntu-trusty_amd64.deb
-sudo dpkg -i docker-ce_17.03.0-ce-0~ubuntu-trusty_amd64.deb
-sudo tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": ["https://ae6kri8o.mirror.aliyuncs.com"]
-}
-EOF
+sudo apt-get purge docker-ce -y
+sudo rm -rf /var/lib/docker
+sudo apt-get update
+sudo apt-get install -y \
+     linux-image-extra-$(uname -r) \
+     linux-image-extra-virtual
+sudo apt-get install -y \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     software-properties-common
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository \
+     "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce
+echo "DOCKER_OPTS=\"\$DOCKER_OPTS --registry-mirror=https://24z731hs.mirror.aliyuncs.com\"" | sudo tee -a /etc/default/docker
+sudo service docker restart
 
 i=`hostname`|awk -F 0 `{print$2}`
 if [ $i -eq 1]
