@@ -11,17 +11,26 @@ EOF
 i=`hostname`|awk -F 0 `{print$2}`
 if [ $i -eq 1]
 then
+ip=`ifconfig eth0|awk '{print$2}'|awk -F: 'NR==2{print$2}'`
+sudo apt-get install -y tcl tk expect
+sudo expect <<EOF
+set timeout 300
+spawn docker run --rm -it --name ucp  -v /var/run/docker.sock:/var/run/docker.sock   docker/ucp:2.1.2 install  --host-address $ip --admin-username hydsoft --admin-password hyddocker --interactive
+expect "Additional aliases:"
+send "\n"
+expect eof
+EOF
 
-docker run --rm -it --name ucp \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  docker/ucp:2.1.2 install \
-  --debug
-  --host-address $i \
-  --admin-username $ucp_admin_username
-  --admin-password $ucp_admin_password
+#docker run --rm -it --name ucp \
+#  -v /var/run/docker.sock:/var/run/docker.sock \
+#  docker/ucp:2.1.2 install \
+#  --debug
+#  --host-address $i \
+#  --admin-username $ucp_admin_username
+#  --admin-password $ucp_admin_password
  # --san $i
  # --san $controller_slb_ip
-  --interactive
+#  --interactive
 
 sudo docker swarm join-token worker|awk 'NR>2{print$0}' >>/opt/worker.sh
 sudo docker swarm join-token manager|awk 'NR>2{print$0}' >>/opt/manager.sh
