@@ -21,7 +21,7 @@ sudo apt-get install -y docker-ce
 echo "DOCKER_OPTS=\"\$DOCKER_OPTS --registry-mirror=https://24z731hs.mirror.aliyuncs.com\"" | sudo tee -a /etc/default/docker
 sudo service docker restart
 
-i=`hostname`|awk -F 0 `{print$2}`
+ i=`hostname|awk -F 0 '{print$2}'`
 if [ $i -eq 1]
 then
 ip=`ifconfig eth0|awk '{print$2}'|awk -F: 'NR==2{print$2}'`
@@ -64,6 +64,6 @@ mount -t nfs DDC-01/opt /opt
 bash /opt/manager.sh
 else
 sudo apt-get install nfs-common
-mount -t nfs DDC-01/opt /op
+mount -t nfs DDC-01:/opt /op
 bash /opt/worker.sh
 fi
