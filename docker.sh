@@ -58,12 +58,12 @@ then
 
 ########################
 sudo apt-get install nfs-common
-mount -t nfs DDC-01/opt /opt
+sudo mount -t nfs DDC-01/opt /opt
 #bash /opt/workt.sh
 ###########
 bash /opt/manager.sh
 else
 sudo apt-get install nfs-common
-mount -t nfs DDC-01:/opt /op
-bash /opt/worker.sh
+sudo mount -t nfs DDC-01:/tmp /tmp
+sudo bash /tmp/worker.sh
 fi
