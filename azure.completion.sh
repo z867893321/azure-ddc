@@ -90,3 +90,5 @@ done
 # -n ddc01 \
 # -z Standard_DS3 \
 # --customData "export IPDNS=$publicdns"
+sudo apt-get install -y nfs -common
+sudo mount -t cifs //hydsoft.file.core.chinacloudapi.cn/install /mnt -o vers=3.0,username=hydsoft,password=AhNAVn1hAKp8dfyFoBG447UzBRRPJO2wYou/ybB1T58TlvEijAV8uYb7ArZIrPIJbNB+OpfEJ72fDpk3NRngXg==,dir_mode=0777,file_mode=0777
