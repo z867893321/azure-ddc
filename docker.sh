@@ -45,11 +45,11 @@ EOF
  # --san $controller_slb_ip
 #  --interactive
 
-sudo docker swarm join-token worker|awk 'NR>2{print$0}' >>/opt/worker.sh
-sudo docker swarm join-token manager|awk 'NR>2{print$0}' >>/opt/manager.sh
+sudo docker swarm join-token worker|awk 'NR>2{print$0}' >>/tmp/worker.sh
+sudo docker swarm join-token manager|awk 'NR>2{print$0}' >>/tmp/manager.sh
 sudo apt-get install nfs-kernel-server -y
 sudo tee /etc/exports <<-'EOF'
-/opt/ *(rw,sync,no_root_squash,no_subtree_check)
+/tmp/ *(rw,sync,no_root_squash,no_subtree_check)
 EOF
 sudo rpc.mountd
 sudo service nfs-kernel-server restart
