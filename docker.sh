@@ -1,5 +1,5 @@
-#!/bin/bash
-sudo apt-get purge docker-ce -y
+#!/usr/bin/bash
+sudo apt-get purge docker-ce -y 
 sudo rm -rf /var/lib/docker
 sudo apt-get update
 sudo apt-get install -y \
@@ -21,8 +21,8 @@ sudo apt-get install -y docker-ce
 echo "DOCKER_OPTS=\"\$DOCKER_OPTS --registry-mirror=https://24z731hs.mirror.aliyuncs.com\"" | sudo tee -a /etc/default/docker
 sudo service docker restart
 
- i=`hostname|awk -F 0 '{print$2}'`
-if [ $i -eq 1]
+i=`hostname|awk -F 0 '{print$2}'`
+if [ $i -eq 1 ]
 then
 ip=`ifconfig eth0|awk '{print$2}'|awk -F: 'NR==2{print$2}'`
 sudo apt-get install -y tcl tk expect
@@ -44,26 +44,25 @@ EOF
  # --san $i
  # --san $controller_slb_ip
 #  --interactive
-
 sudo docker swarm join-token worker|awk 'NR>2{print$0}' >>/tmp/worker.sh
 sudo docker swarm join-token manager|awk 'NR>2{print$0}' >>/tmp/manager.sh
 sudo apt-get install nfs-kernel-server -y
 sudo tee /etc/exports <<-'EOF'
-/tmp/ *(rw,sync,no_root_squash,no_subtree_check)
+/opt/ *(rw,sync,no_root_squash,no_subtree_check)
 EOF
 sudo rpc.mountd
 sudo service nfs-kernel-server restart
-elif [$i -gt 1 && $i -le 3]
+
+elif [ $i -gt 1 ] && [ $i -le 3 ]
 then
 
 ########################
-sudo apt-get install nfs-common
-sudo mount -t nfs DDC-01/opt /opt
-#bash /opt/workt.sh
+sudo apt-get install nfs-common -y
+sudo mount -t nfs DDC-01:/tmp /tmp
 ###########
-bash /opt/manager.sh
+sudo bash /tmp/manager.sh
 else
-sudo apt-get install nfs-common
+sudo apt-get install nfs-common -y
 sudo mount -t nfs DDC-01:/tmp /tmp
 sudo bash /tmp/worker.sh
 fi
