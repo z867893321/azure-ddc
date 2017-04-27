@@ -56,7 +56,7 @@ azure vm create  \
  --image-urn Canonical:UbuntuServer:14.04.5-LTS:latest \
  -n $vmname \
  -z Standard_DS3
-#azure vm extension set $ResourceGroup $vmname  CustomScript Microsoft.Azure.Extensions 2.0 --public-config '{"fileUris": ["https://raw.githubusercontent.com/z867893321/test/master/docker.sh"],"commandToExecute": "./docker.sh"}'
+azure vm extension set $ResourceGroup $vmname  CustomScript Microsoft.Azure.Extensions 2.0 --public-config '{"fileUris": ["https://raw.githubusercontent.com/z867893321/azure-ddc/master/docker.sh"],"commandToExecute": "./docker.sh"}'
 else
 azure network nic create -g $ResourceGroup -l chinanorth -n $mynic -m $Vnet  -k $Subnet
 azure vm create  \
@@ -71,7 +71,7 @@ azure vm create  \
 --image-urn Canonical:UbuntuServer:14.04.5-LTS:latest \
  -n $vmname \
  -z Standard_DS3
-#azure vm extension set $ResourceGroup $vmname  CustomScript Microsoft.Azure.Extensions 2.0 --public-config '{"fileUris": ["https://raw.githubusercontent.com/z867893321/test/master/docker.sh"],"commandToExecute": "./docker.sh"}'
+azure vm extension set $ResourceGroup $vmname  CustomScript Microsoft.Azure.Extensions 2.0 --public-config '{"fileUris": ["https://raw.githubusercontent.com/z867893321/azure-ddc/master/docker.sh"],"commandToExecute": "bash docker.sh"}'
 fi
 done
 
